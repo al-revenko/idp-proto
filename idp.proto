@@ -2,4 +2,63 @@ syntax = "proto3";
 
 package idp;
 
+import "google/protobuf/empty.proto";
+
 option go_package = "revenko.idp.v1;idpv1";
+
+service AuthService {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Logout(LogoutRequest) returns (google.protobuf.Empty);
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+}
+
+service ClientService {
+  rpc ClientCreate(ClientCreateRequest) returns (ClientCreateResponse);
+  rpc ClientDelete(google.protobuf.Empty) returns (google.protobuf.Empty);
+}
+
+message PublicKeyResponse {
+  bytes rsa_pub_pem = 1;
+}
+
+message ClientCreateRequest {
+  string name = 1;
+  string jwks_url = 2;
+}
+
+message ClientCreateResponse {
+  string client_id = 1;
+}
+
+message RegisterRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message RegisterResponse {
+  string user_id = 1;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message LogoutRequest {
+  string refresh_token = 1;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
