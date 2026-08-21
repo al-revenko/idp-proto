@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package idp;
+
+option go_package = "revenko.idp.v1;idpv1";
